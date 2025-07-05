@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Student Mobile Viewer</title>
@@ -30,14 +31,24 @@
   </style>
 </head>
 <body>
-  <h1>📱 Student Contact Viewer</h1>
+  <h1>🔐 Student Contact Viewer</h1>
+  
+  <p>Enter Password:</p>
+  <input type="password" id="passwordInput" placeholder="Enter password">
+  <br>
+  
   <p>Enter Student Name:</p>
   <input type="text" id="nameInput" placeholder="e.g. Tanisha">
-  <button onclick="showNumber()">Show Number</button>  <div class="result-box" id="resultBox">
+  <button onclick="showNumber()">Show Number</button>
+
+  <div class="result-box" id="resultBox">
     <h2>Student: <span id="studentName"></span></h2>
     <p><strong>📞 Mobile Number:</strong> <span id="mobileNumber"></span></p>
-  </div>  <script>
-    // Student contact list
+  </div>
+
+  <script>
+    const PASSWORD = "keretoi"; // ✅ তোমার নির্ধারিত পাসওয়ার্ড
+
     const contacts = {
       "Tanisha": "01816344886",
       "Titi": "01704470145",
@@ -63,9 +74,16 @@
     };
 
     function showNumber() {
+      const password = document.getElementById("passwordInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
       const number = contacts[name];
       const resultBox = document.getElementById("resultBox");
+
+      if (password !== PASSWORD) {
+        alert("🚫 Incorrect Password!");
+        resultBox.style.display = "none";
+        return;
+      }
 
       if (number) {
         document.getElementById("studentName").innerText = name;
@@ -76,5 +94,6 @@
         resultBox.style.display = "none";
       }
     }
-  </script></body>
+  </script>
+</body>
 </html>
