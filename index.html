@@ -47,8 +47,7 @@
   </div>
 
   <script>
-    const PASSWORD = "keretoi"; // ✅ তোমার নির্ধারিত পাসওয়ার্ড
-
+    const PASSWORD = "keretoi";
     const contacts = {
       "Tanisha": "01816344886",
       "Titi": "01704470145",
@@ -73,24 +72,43 @@
       "Mehazabin": "01828150069"
     };
 
+    let wrongAttempts = 0;
+    let isLocked = false;
+
     function showNumber() {
       const password = document.getElementById("passwordInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
-      const number = contacts[name];
       const resultBox = document.getElementById("resultBox");
 
+      if (isLocked) {
+        alert("⛔ ৫ মিনিটের জন্য ব্লক করা হয়েছে! পরে আবার চেষ্টা করুন।");
+        return;
+      }
+
       if (password !== PASSWORD) {
-        alert("🚫 Incorrect Password!");
+        wrongAttempts++;
+        if (wrongAttempts >= 2) {
+          isLocked = true;
+          alert("🚫 ২ বার ভুল দিয়েছেন! এখন ৫ মিনিট পর চেষ্টা করুন।");
+          setTimeout(() => {
+            isLocked = false;
+            wrongAttempts = 0;
+            alert("✅ এখন আবার চেষ্টা করতে পারেন।");
+          }, 5 * 60 * 1000); // 5 মিনিট
+        } else {
+          alert("❌ ভুল পাসওয়ার্ড! আর একবার ভুল করলে আপনি ৫ মিনিটের জন্য ব্লক হবেন।");
+        }
         resultBox.style.display = "none";
         return;
       }
 
+      const number = contacts[name];
       if (number) {
         document.getElementById("studentName").innerText = name;
         document.getElementById("mobileNumber").innerText = number;
         resultBox.style.display = "block";
       } else {
-        alert("❌ No contact found for this name.");
+        alert("📛 নাম পাওয়া যায়নি!");
         resultBox.style.display = "none";
       }
     }
