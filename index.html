@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Student Mobile Viewer</title>
   <style>
     body {
@@ -28,17 +28,28 @@
       display: none;
       border: 1px solid #555;
     }
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #999;
+    }
+    .fb-link {
+      color: #00ffcc;
+      text-decoration: none;
+      display: none;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h1>🔐 Student Contact Viewer</h1>
   
   <p>Enter Password:</p>
-  <input type="password" id="passwordInput" placeholder="Enter password">
+  <input type="password" id="passwordInput" placeholder="Enter password" />
   <br>
   
   <p>Enter Student Name:</p>
-  <input type="text" id="nameInput" placeholder="e.g. Tanisha">
+  <input type="text" id="nameInput" placeholder="e.g. Tanisha" />
   <button onclick="showNumber()">Show Number</button>
 
   <div class="result-box" id="resultBox">
@@ -46,8 +57,17 @@
     <p><strong>📞 Mobile Number:</strong> <span id="mobileNumber"></span></p>
   </div>
 
+  <div id="fbSection" class="result-box">
+    <h2>📘 যোগাযোগ করতে চাই?</h2>
+    <p>Click here 👉 <a href="https://www.facebook.com/ahsan.vir.2024" target="_blank" class="fb-link" id="fbLink">Facebook</a></p>
+  </div>
+
+  <div class="footer">Powered by <strong>Cadershab</strong></div>
+
   <script>
-    const PASSWORD = "keretoi";
+    const STUDENT_PASS = "keretoi";
+    const FB_PASS = "saifulbai";
+
     const contacts = {
       "Tanisha": "01816344886",
       "Titi": "01704470145",
@@ -69,7 +89,43 @@
       "Kadiza": "01716074745",
       "Sabiha": "01611716679",
       "Rani": "01724600398",
-      "Mehazabin": "01828150069"
+      "Mehazabin": "01828150069",
+      "Tanha Amin": "01311130265",
+      "Samia": "01811222284",
+      "Afrin": "01771769051",
+      "Nishat": "01733949580",
+      "Ahona": "01838025480",
+      "Camppa": "01777525186",
+      "Israt": "01759975444",
+      "Farema": "01906772724",
+      "Jerin": "01672060486",
+      "Ribida": "01923662602",
+      "Morjina": "01746283405",
+      "Sabikun": "01880343063",
+      "Mim": "01781814803",
+      "Samiya": "01924947408",
+      "Somaiya": "01323956226",
+      "Noha": "01882001274",
+      "Samiya 2": "01613832939",
+      "Lamiya": "01613832939",
+      "Jalpa": "01881077886",
+      "Taspia": "01990116397",
+      "Musfika": "01815077386",
+      "Sabrina": "01817050638",
+      "Aba": "01799643015",
+      "Lamiya 2": "01725141165",
+      "Rimi talu": "01604951012",
+      "Afsana": "01890476229",
+      "Fouzia": "01915982393",
+      "Tammanna": "01864783109",
+      "Soniya": "01865951370",
+      "Salma": "01851842533",
+      "Humayra": "01835500250",
+      "Taspia 2": "01737737825",
+      "Jeba": "01818602688",
+      "Nadia": "01836888873",
+      "Maria": "01814319688",
+      "Shipa": "01818314801"
     };
 
     let wrongAttempts = 0;
@@ -79,13 +135,32 @@
       const password = document.getElementById("passwordInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
       const resultBox = document.getElementById("resultBox");
+      const fbSection = document.getElementById("fbSection");
+      const fbLink = document.getElementById("fbLink");
 
+      // Block check
       if (isLocked) {
         alert("⛔ ৫ মিনিটের জন্য ব্লক করা হয়েছে! পরে আবার চেষ্টা করুন।");
         return;
       }
 
-      if (password !== PASSWORD) {
+      // Password handling
+      if (password === STUDENT_PASS) {
+        const number = contacts[name];
+        if (number) {
+          document.getElementById("studentName").innerText = name;
+          document.getElementById("mobileNumber").innerText = number;
+          resultBox.style.display = "block";
+          fbSection.style.display = "none";
+        } else {
+          alert("📛 নাম পাওয়া যায়নি!");
+          resultBox.style.display = "none";
+        }
+      } else if (password === FB_PASS) {
+        fbSection.style.display = "block";
+        fbLink.style.display = "inline";
+        resultBox.style.display = "none";
+      } else {
         wrongAttempts++;
         if (wrongAttempts >= 2) {
           isLocked = true;
@@ -94,22 +169,12 @@
             isLocked = false;
             wrongAttempts = 0;
             alert("✅ এখন আবার চেষ্টা করতে পারেন।");
-          }, 5 * 60 * 1000); // 5 মিনিট
+          }, 5 * 60 * 1000);
         } else {
           alert("❌ ভুল পাসওয়ার্ড! আর একবার ভুল করলে আপনি ৫ মিনিটের জন্য ব্লক হবেন।");
         }
         resultBox.style.display = "none";
-        return;
-      }
-
-      const number = contacts[name];
-      if (number) {
-        document.getElementById("studentName").innerText = name;
-        document.getElementById("mobileNumber").innerText = number;
-        resultBox.style.display = "block";
-      } else {
-        alert("📛 নাম পাওয়া যায়নি!");
-        resultBox.style.display = "none";
+        fbSection.style.display = "none";
       }
     }
   </script>
