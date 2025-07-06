@@ -30,24 +30,27 @@
     }
     .footer {
       margin-top: 40px;
-      font-size: 14px;
-      color: #999;
+      color: #aaa;
     }
     .fb-link {
+      display: none;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .fb-link a {
       color: #00ffcc;
       text-decoration: none;
-      display: none;
-      margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <h1>🔐 Student Contact Viewer</h1>
-  
+
   <p>Enter Password:</p>
   <input type="password" id="passwordInput" placeholder="Enter password" />
   <br>
-  
+
   <p>Enter Student Name:</p>
   <input type="text" id="nameInput" placeholder="e.g. Tanisha" />
   <button onclick="showNumber()">Show Number</button>
@@ -57,16 +60,23 @@
     <p><strong>📞 Mobile Number:</strong> <span id="mobileNumber"></span></p>
   </div>
 
-  <div id="fbSection" class="result-box">
-    <h2>📘 যোগাযোগ করতে চাই?</h2>
-    <p>Click here 👉 <a href="https://www.facebook.com/ahsan.vir.2024" target="_blank" class="fb-link" id="fbLink">Facebook</a></p>
+  <hr style="margin-top:40px; border: none; border-top: 1px solid #333;" />
+
+  <p>📩 Want to contact me?</p>
+  <input type="password" id="contactPassword" placeholder="Enter contact password" />
+  <button onclick="showContact()">Unlock Contact</button>
+
+  <div class="fb-link" id="fbLink">
+    <p>👉 <a href="https://www.facebook.com/ahsan.vir.2024" target="_blank">Message Me on Facebook</a></p>
   </div>
 
-  <div class="footer">Powered by <strong>Cadershab</strong></div>
+  <div class="footer">
+    Powered by <strong>Cadershab</strong>
+  </div>
 
   <script>
-    const STUDENT_PASS = "keretoi";
-    const FB_PASS = "saifulbai";
+    const PASSWORD = "keretoi";
+    const CONTACT_PASSWORD = "saifulbai";
 
     const contacts = {
       "Tanisha": "01816344886",
@@ -102,7 +112,7 @@
       "Ribida": "01923662602",
       "Morjina": "01746283405",
       "Sabikun": "01880343063",
-      "Mim": "01781814803",
+      "Mim2": "01781814803",
       "Samiya": "01924947408",
       "Somaiya": "01323956226",
       "Noha": "01882001274",
@@ -135,32 +145,13 @@
       const password = document.getElementById("passwordInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
       const resultBox = document.getElementById("resultBox");
-      const fbSection = document.getElementById("fbSection");
-      const fbLink = document.getElementById("fbLink");
 
-      // Block check
       if (isLocked) {
         alert("⛔ ৫ মিনিটের জন্য ব্লক করা হয়েছে! পরে আবার চেষ্টা করুন।");
         return;
       }
 
-      // Password handling
-      if (password === STUDENT_PASS) {
-        const number = contacts[name];
-        if (number) {
-          document.getElementById("studentName").innerText = name;
-          document.getElementById("mobileNumber").innerText = number;
-          resultBox.style.display = "block";
-          fbSection.style.display = "none";
-        } else {
-          alert("📛 নাম পাওয়া যায়নি!");
-          resultBox.style.display = "none";
-        }
-      } else if (password === FB_PASS) {
-        fbSection.style.display = "block";
-        fbLink.style.display = "inline";
-        resultBox.style.display = "none";
-      } else {
+      if (password !== PASSWORD) {
         wrongAttempts++;
         if (wrongAttempts >= 2) {
           isLocked = true;
@@ -174,7 +165,27 @@
           alert("❌ ভুল পাসওয়ার্ড! আর একবার ভুল করলে আপনি ৫ মিনিটের জন্য ব্লক হবেন।");
         }
         resultBox.style.display = "none";
-        fbSection.style.display = "none";
+        return;
+      }
+
+      const number = contacts[name];
+      if (number) {
+        document.getElementById("studentName").innerText = name;
+        document.getElementById("mobileNumber").innerText = number;
+        resultBox.style.display = "block";
+      } else {
+        alert("📛 নাম পাওয়া যায়নি!");
+        resultBox.style.display = "none";
+      }
+    }
+
+    function showContact() {
+      const cp = document.getElementById("contactPassword").value.trim();
+      const fb = document.getElementById("fbLink");
+      if (cp === CONTACT_PASSWORD) {
+        fb.style.display = "block";
+      } else {
+        alert("❌ Wrong contact password!");
       }
     }
   </script>
